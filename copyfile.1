@@ -1,0 +1,73 @@
+.\" Manpage for copyfile
+.\" MIT License
+.TH REVEAL 1 "01 Jan 2024" "inopinatus" "Copyfile User Manual"
+.SH NAME
+copyfile \- copy file data and/or metadata using copyfile(3)
+.SH SYNOPSIS
+.B copyfile
+.RI src
+.RI dst
+.RI [ flags... ]
+.SH DESCRIPTION
+.PP
+.B copyfile
+is a utility wrapper around the copyfile(3) library built into macOS
+for copying file data and metadata.
+.PP
+The arguments have the same meaning as those passed to the library
+function. The
+.BI src
+and
+.BI dst
+are paths. The
+.BI flags
+option accepts a list of space-separated strings matching those of the
+library call, and may be any of:
+.PP
+.I acl stat xattr data security metadata all nofollow_src nofollow_dst
+.I nofollow excl move unlink pack unpack check clone clone_force
+.I verbose recursive data_sparse run_in_place preserve_dst_tracked
+.PP
+See copyfile(3) for the documented meaning of these flags.
+.PP
+Note that only specified contents is copied. If no flags are given,
+then no contents will be copied, but the destination may be created
+if it does not already exist.
+.SH EXAMPLES
+Copy a file and its metadata:
+.PP
+.nf
+\fBcopyfile file1.txt file2.txt all\fR
+.fi
+.PP
+Copy only the metadata of one file to another, leaving the
+destination's data intact:
+.PP
+.nf
+\fBcopyfile file1.txt file2.txt metadata\fR
+.fi
+.PP
+Attempt to recursively clone a hierarchy, including metadata, with
+fallback to a sparse-aware regular copy:
+.PP
+.nf
+\fBcopyfile ~/src ~/tmp/src.backup clone recursive data_sparse\fR
+.fi
+.SH EXIT STATUS
+.PP
+The copyfile utility exits with 0 on success, or >0 if an error occurs.
+.SH CALLBACKS
+.PP
+The callback behaviours in the copyfile(3) library are not available
+through this utility.
+.SH LICENSE
+.PP
+This version of copyfile is adapted directly from test code included
+in Apple OSS releases, and therefore distributed under the Apple
+Public Source License.
+.SH CONTRIBUTING
+.PP
+Visit the Github project: https://github.com/inopinatus/copyfile
+.SH SEE ALSO
+.BR copyfile (3),
+.BR syslog (3)
