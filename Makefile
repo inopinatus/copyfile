@@ -1,4 +1,4 @@
-.PHONY: all install uninstrall clean
+.PHONY: all install uninstall clean
 
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
